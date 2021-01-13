@@ -1,12 +1,12 @@
 
 
 $(document).ready(function () {
-  $("#submit-btn").click(() => {
+  $("#btn-enter").click(() => {
     var ctime = $("#checkin-time").val();
 
     var path = "/table1query1output-" + ctime;
-    if (ctime == ""||ctime =="0") {
-      alert("Please fill up all the fields.");
+    if (ctime == "") {
+      alert("Please fill up the field");
     } else {
       $(location).attr("href", path);
     }

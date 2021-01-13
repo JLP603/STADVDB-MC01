@@ -1,5 +1,7 @@
 <div class="container">
-  <h2>Rating of user {{UserName}} on business {{BusinessName}}</h2>
+  <h2>A User's Ratings Of A Business</h2>
+  <p>Rating of user {{UserName}} on business {{BusinessName}}</p>
+  <br>
   <!-- Output -->
   <table class="table table-bordered">
     <thead class="thead-dark">
@@ -17,7 +19,7 @@
       {{/each}}
       {{else}}
       <tr>
-        <td>Error.</td>
+        <td>No ratings found. Please check if the input entered is valid.</td>
       </tr>
       {{/if}}
     </tbody>

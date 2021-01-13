@@ -1,13 +1,14 @@
 <div class="container">
     <!-- Title -->
     <h2>Daily Check-In Rate</h2>
+    <p>Percentage of business of the total amount of business in a week</p>
     <br>
 
     <!-- Output -->
     <table class="table table-bordered">
       <thead class="thead-dark">
         <tr>
-          <th scope="col">Check-In Rate on {{day_input}} </th>
+          <th scope="col">Check-In rate on {{day_input}} in percent</th>
         </tr>
       </thead>
       <tbody>
@@ -19,7 +20,7 @@
             {{/each}}
         {{else}}
           <tr>
-            <td>Error.</td>
+            <td>Error. Please check if the input entered is valid.</td>
           </tr>
         {{/if}}
       </tbody>

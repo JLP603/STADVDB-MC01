@@ -1,6 +1,7 @@
 <div class="container">
   <!-- Title -->
-  <h2>Who gave tips for businesses on {{MonthInput}}/{{DayInput}}/{{YearInput}}</h2>
+  <h2>List Of Tips Given On A Specific Date</h2>
+  <p>People that gave tips to businesses on {{MonthInput}}/{{DayInput}}/{{YearInput}}</p>
   <br>
 
   <!-- Output -->
@@ -12,7 +13,7 @@
         <th scope="col">Month</th>
         <th scope="col">Day</th>
         <th scope="col">Tipper</th>
-        <th scope="col">Tipper Text</th>
+        <th scope="col">Comments</th>
       </tr>
     </thead>
     <tbody>
@@ -29,7 +30,7 @@
       {{/each}}
       {{else}}
       <tr>
-        <td>No result found that fit the criteria.</td>
+        <td>No tips were given on that date. Please check if the input entered is valid.</td>
       </tr>
       {{/if}}
     </tbody>

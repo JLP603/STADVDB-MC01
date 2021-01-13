@@ -1,10 +1,10 @@
 $(document).ready(function () {
-  $("#submit-btn").click(() => {
+  $("#btn-enter").click(() => {
     var user = $("#user-name").val();
     var business = $("#business-name").val();
     var path = "/table3query1output-" + user + "-" + business;
     if (user == "" || business == "") {
-      alert("Please fill up all the fields.");
+      alert("Please fill up all the fields");
     } else {
       $(location).attr("href", path);
     }

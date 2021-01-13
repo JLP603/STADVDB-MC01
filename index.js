@@ -1,4 +1,4 @@
-//Loads the express module
+
 const express = require("express");
 const path = require("path");
 const exphbs = require("express-handlebars");
@@ -18,7 +18,7 @@ db.connect(function (err) {
   console.log("Connected!");
 });
 
-//Creates our express server
+
 const app = express();
 const port = 9000;
 
@@ -41,7 +41,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname + "/public"));
 app.use(express.static(__dirname + "/scripts"));
 
-//Serves static files (we need it to import a css file)
+
 app.use(express.static("public"));
 
 /* ------------------------------------ PAGE ROUTES -------------------------------------- */
@@ -108,8 +108,7 @@ app.get("/table1query2output-:param1", function (req, res) {
     "SELECT day_of_week, SUM((time_0 + time_1 + time_2 + time_3 + time_4 + time_5 + time_6 + time_7 + time_8 + time_9 + time_10 + time_11 + time_12 + time_13 + time_14 + time_15 + time_16 + time_17 + time_18 + time_19 +time_20 + time_21 + time_22 + time_23)) / (SELECT SUM((time_0 + time_1 + time_2 + time_3 + time_4 + time_5 + time_6 + time_7 + time_8 + time_9 + time_10 + time_11 + time_12 + time_13 + time_14 + time_15 + time_16 + time_17 + time_18 + time_19 + time_20 + time_21 + time_22 + time_23)) FROM YelpDataset3.Checkins) * 100 AS Busy_Percentage FROM YelpDataset3.Checkins WHERE day_of_week = '" +
     day_input+
     "' GROUP BY day_of_week;";
-  //var query = "select mg.genre as genre, COUNT(m.id) AS nummovies from movies m, actors a, roles r, movies_genres mg where mg.movie_id = m.id and r.actor_id = a.id and a.first_name = '"+ firstname + "' and a.last_name = '"+ lastname +"' group by mg.genre order by mg.genre;";
-
+  
   db.query(query, function (error, output) {
     if (error) console.log(error);
 
@@ -137,7 +136,6 @@ app.get("/table2query1", function (req, res) {
 app.get("/table2query1output-:param1", function (req, res) {
   var business_name = req.params.param1;
   var query =
-  /*something may be wrong with the statement below*/
     "SELECT business_name, day_of_week, (time_0 + time_1 + time_2 + time_3 + time_4 + time_5 + time_6 + time_7 + time_8 + time_9 + time_10 + time_11 + time_12 + time_13 + time_14 + time_15 + time_16 + time_17 + time_18 + time_19 +time_20 + time_21 + time_22 + time_23) checkinsN FROM YelpDataset3.Checkins a, Business b WHERE a.business_id = b.business_id AND business_name = '"
      +business_name+
      "' AND (time_0 + time_1 + time_2 + time_3 + time_4 + time_5 + time_6 + time_7 + time_8 + time_9 + time_10 + time_11 + time_12 + time_13 + time_14 + time_15 + time_16 + time_17 + time_18 + time_19 +time_20 + time_21 + time_22 + time_23) = (SELECT MAX((time_0 + time_1 + time_2 + time_3 + time_4 + time_5 + time_6 + time_7 + time_8 + time_9 + time_10 + time_11 + time_12 + time_13 + time_14 + time_15 + time_16 + time_17 + time_18 + time_19 +time_20 + time_21 + time_22 + time_23)) AS timemax FROM YelpDataset3.Checkins a, Business b WHERE a.business_id = b.business_id AND business_name = '"
@@ -169,7 +167,6 @@ app.get("/table2query2", function (req, res) {
 app.get("/table2query2output-:param1", function (req, res) {
   var business_name = req.params.param1;
   var query=
-  /*something may be wrong with the statement below*/
     "SELECT business_name, r.stars, review_text FROM YelpDataset3.Business b, YelpDataset3.Reviews r WHERE b.business_id = r.business_id AND business_name = '"
     +business_name+
     "';";

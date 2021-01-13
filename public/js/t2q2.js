@@ -11,7 +11,7 @@ $(document).ready(function () {
             $(location).attr("href", path);
         }
         else {
-            alert("Please fill up all the fields.")
+            alert("Please fill up all the field")
         }
     });
 });

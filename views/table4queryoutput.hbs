@@ -1,6 +1,7 @@
 <div class="container">
   <!-- Title -->
-  <h2>Information on Category {{CategoryInput}}</h2>
+  <h2>Category Search</h2>
+  <p>Information on Category {{CategoryInput}}</p>
   <br>
 
   <!-- Output TO BE UPDATED -->
@@ -9,7 +10,7 @@
       <tr>
         <th scope="col">Category</th>
         <th scope="col">Business Name</th>
-        <th scope="col">Most Userful Reviewer</th>
+        <th scope="col">Reviewer Name</th>
         <th scope="col">Stars</th>
         <th scope="col">Votes</th>
         <th scope="col">Review Text</th>
@@ -29,7 +30,7 @@
       {{/each}}
       {{else}}
       <tr>
-        <td>No result found</td>
+        <td>No results found. Please check if the input entered is valid.</td>
       </tr>
       {{/if}}
     </tbody>
