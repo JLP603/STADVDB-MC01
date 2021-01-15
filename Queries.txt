@@ -1,0 +1,143 @@
+1 Table Queries
+
+A.
+	Normal: "SELECT SUM({input}) / 
+		(SELECT MAX(sumtime) FROM (SELECT sum(time_0) sumtime FROM YelpDataset3.Checkins 
+			UNION ALL SELECT sum(time_1) FROM YelpDataset3.Checkins  
+			UNION ALL SELECT sum(time_2) FROM YelpDataset3.Checkins  
+			UNION ALL SELECT sum(time_3) FROM YelpDataset3.Checkins  
+			UNION ALL SELECT sum(time_4) FROM YelpDataset3.Checkins  
+			UNION ALL SELECT sum(time_5) FROM YelpDataset3.Checkins  
+			UNION ALL SELECT sum(time_6) FROM YelpDataset3.Checkins  
+			UNION ALL SELECT sum(time_7) FROM YelpDataset3.Checkins  
+			UNION ALL SELECT sum(time_8) FROM YelpDataset3.Checkins  
+			UNION ALL SELECT sum(time_9) FROM YelpDataset3.Checkins  
+			UNION ALL SELECT sum(time_10) FROM YelpDataset3.Checkins  
+			UNION ALL SELECT sum(time_11) FROM YelpDataset3.Checkins  
+			UNION ALL SELECT sum(time_12) FROM YelpDataset3.Checkins  
+			UNION ALL SELECT sum(time_13) FROM YelpDataset3.Checkins  
+			UNION ALL SELECT sum(time_14) FROM YelpDataset3.Checkins  
+			UNION ALL SELECT sum(time_15) FROM YelpDataset3.Checkins  
+			UNION ALL SELECT sum(time_16) FROM YelpDataset3.Checkins  
+			UNION ALL SELECT sum(time_17) FROM YelpDataset3.Checkins  
+			UNION ALL SELECT sum(time_18) FROM YelpDataset3.Checkins  
+			UNION ALL SELECT sum(time_19) FROM YelpDataset3.Checkins  
+			UNION ALL SELECT sum(time_20) FROM YelpDataset3.Checkins  
+			UNION ALL  SELECT sum(time_21) FROM YelpDataset3.Checkins  
+			UNION ALL SELECT sum(time_22) FROM YelpDataset3.Checkins  
+			UNION ALL SELECT sum(time_23) FROM YelpDataset3.Checkins) z)* 100 AS BusyChance 
+		FROM YelpDataset3.Checkins;
+
+	Optimized: "SELECT SUM({input}) / 
+		(SELECT sumtime 
+		FROM (SELECT sum(time_0) sumtime FROM YelpDataset3.Checkins 
+			UNION ALL SELECT sum(time_1) FROM YelpDataset3.Checkins  
+			UNION ALL SELECT sum(time_2) FROM YelpDataset3.Checkins  
+			UNION ALL SELECT sum(time_3) FROM YelpDataset3.Checkins  
+			UNION ALL SELECT sum(time_4) FROM YelpDataset3.Checkins  
+			UNION ALL SELECT sum(time_5) FROM YelpDataset3.Checkins  
+			UNION ALL SELECT sum(time_6) FROM YelpDataset3.Checkins  
+			UNION ALL SELECT sum(time_7) FROM YelpDataset3.Checkins  
+			UNION ALL SELECT sum(time_8) FROM YelpDataset3.Checkins  
+			UNION ALL SELECT sum(time_9) FROM YelpDataset3.Checkins  
+			UNION ALL SELECT sum(time_10) FROM YelpDataset3.Checkins  
+			UNION ALL SELECT sum(time_11) FROM YelpDataset3.Checkins  
+			UNION ALL SELECT sum(time_12) FROM YelpDataset3.Checkins  
+			UNION ALL SELECT sum(time_13) FROM YelpDataset3.Checkins  
+			UNION ALL SELECT sum(time_14) FROM YelpDataset3.Checkins  
+			UNION ALL SELECT sum(time_15) FROM YelpDataset3.Checkins  
+			UNION ALL SELECT sum(time_16) FROM YelpDataset3.Checkins  
+			UNION ALL SELECT sum(time_17) FROM YelpDataset3.Checkins  
+			UNION ALL SELECT sum(time_18) FROM YelpDataset3.Checkins  
+			UNION ALL SELECT sum(time_19) FROM YelpDataset3.Checkins  
+			UNION ALL SELECT sum(time_20) FROM YelpDataset3.Checkins  
+			UNION ALL SELECT sum(time_21) FROM YelpDataset3.Checkins  
+			UNION ALL SELECT sum(time_22) FROM YelpDataset3.Checkins  	
+			UNION ALL SELECT sum(time_23) FROM YelpDataset3.Checkins) z 
+		ORDER BY sumtime DESC LIMIT 1) * 100 AS BusyChance 
+		FROM YelpDataset3.Checkins;
+
+
+B. 
+	Normal: SELECT day_of_week, SUM((time_0 + time_1 + time_2 + time_3 + time_4 + time_5 + time_6 + time_7 + time_8 + 
+		time_9 + time_10 + time_11 + time_12 + time_13 + time_14 + time_15 + time_16 + time_17 + time_18 + time_19 +time_20 + 
+		time_21 + time_22 + time_23)) / (SELECT SUM((time_0 + time_1 + time_2 + time_3 + time_4 + time_5 + time_6 + time_7 + 
+		time_8 + time_9 + time_10 + time_11 + time_12 + time_13 + time_14 + time_15 + time_16 + time_17 + time_18 + time_19 + 
+		time_20 + time_21 + time_22 + time_23)) FROM YelpDataset3.Checkins) * 100 AS Busy_Percentage 
+		FROM YelpDataset3.Checkins WHERE day_of_week = {input}
+ 		GROUP BY day_of_week;
+
+	Optimized:  SELECT day_of_week, SUM(time_0 + time_1 + time_2 + time_3 + time_4 + time_5 + time_6 + time_7 + time_8 + time_9 + 
+		time_10 + time_11 + time_12 + time_13 + time_14 + time_15 + time_16 + time_17 + time_18 + time_19 +time_20 + time_21 + 
+		time_22 + time_23) / CheckinTotal.total * 100 AS Busy_Percentage FROM YelpDataset3.Checkins , (SELECT SUM(time_0 + 
+		time_1 + time_2 + time_3 + time_4 + time_5 + time_6 + time_7 + time_8 + time_9 + time_10 + time_11 + time_12 + time_13 + 
+		time_14 + time_15 + time_16 + time_17 + time_18 + time_19 +time_20 + time_21 + time_22 + time_23) as total FROM YelpDataset3.Checkins ) as CheckinTotal 
+		WHERE day_of_week = {input}
+     		GROUP BY day_of_week, CheckinTotal.total;
+
+
+2 Tables Queries
+
+A.	
+	Normal: SELECT business_name, day_of_week, (time_0 + time_1 + time_2 + time_3 + time_4 + time_5 + time_6 + time_7 + time_8 + time_9 + 
+		time_10 + time_11 + time_12 + time_13 + time_14 + time_15 + time_16 + time_17 + time_18 + time_19 +time_20 + time_21 + time_22 + time_23) checkinsN 
+		FROM YelpDataset3.Checkins a, Business b WHERE a.business_id = b.business_id AND business_name = {input}
+    		 AND (time_0 + time_1 + time_2 + time_3 + time_4 + time_5 + time_6 + time_7 + time_8 + time_9 + time_10 + time_11 + time_12 + time_13 + 
+		time_14 + time_15 + time_16 + time_17 + time_18 + time_19 +time_20 + time_21 + time_22 + time_23) = (SELECT MAX((time_0 + time_1 + time_2 + 
+		time_3 + time_4 + time_5 + time_6 + time_7 + time_8 + time_9 + time_10 + time_11 + time_12 + time_13 + time_14 + time_15 + time_16 + time_17 + 
+		time_18 + time_19 +time_20 + time_21 + time_22 + time_23)) AS timemax FROM YelpDataset3.Checkins a, Business b WHERE a.business_id = b.business_id 
+		AND business_name = {input});
+
+	Optimized: SELECT business_name, day_of_week, (time_0 + time_1 + time_2 + time_3 + time_4 + time_5 + time_6 + time_7 + time_8 + time_9 + 
+		time_10 + time_11 + time_12 + time_13 + time_14 + time_15 + time_16 + time_17 + time_18 + time_19 + time_20 + time_21 + time_22 + time_23) checkinsN 
+		FROM YelpDataset3.Checkins c JOIN  Business b ON c.business_id = b.business_id 
+		WHERE business_name = {input} 
+		ORDER BY checkinsN DESC LIMIT 1;
+  
+
+
+B.
+	Normal: SELECT business_name, r.stars, review_text 
+		FROM YelpDataset3.Business b, YelpDataset3.Reviews r 
+		WHERE b.business_id = r.business_id 
+		AND business_name = {input};
+
+	Optimized: SELECT b.business_name, r.stars, review_text 
+		FROM YelpDataset3.Reviews r INNER JOIN 
+			YelpDataset3.Business b ON r.business_id = b.business_id INNER JOIN 
+			YelpDataset3.Users u ON r.user_id = u.user_id WHERE business_name = {input};
+
+3 Tables Queries
+
+A. 
+	Normal: SELECT u.name, b.business_name, r.stars AS UserRate 
+		FROM YelpDataset3.Users u, YelpDataset3.Business b, YelpDataset3.Reviews r 
+		WHERE u.user_id = r.user_id AND b.business_id = r.business_id AND name = {input1} 
+			AND business_name = {input2};
+
+	Optimized: SELECT u.name, b.business_name, r.stars AS UserRate 
+		FROM YelpDataset3.Reviews r INNER JOIN 
+		YelpDataset3.Business b ON r.business_id = b.business_id INNER JOIN 
+		YelpDataset3.Users u ON r.user_id = u.user_id 
+		WHERE name = {input1} AND business_name = {input2};
+
+B.	
+	Normal: SELECT b.business_name, t.date_year, t.date_month, t.date_day, u.name, t.tip_text 
+		FROM YelpDataset3.Tips t, YelpDataset3.Users u, YelpDataset3.Business b 
+		WHERE t.business_id = b.business_id AND t.user_id = u.user_id AND  t.date_year = {input1}
+		AND  t.date_month = {input2} AND t.date_day = {input3};
+
+	Optimized: SELECT b.business_name, t.date_year, t.date_month, t.date_day, u.name, t.tip_text 
+		FROM YelpDataset3.Business b INNER JOIN YelpDataset3.Tips t ON b.business_id = t.business_id INNER JOIN 
+		YelpDataset3.Users u ON t.user_id = u.user_id WHERE t.date_year = {input1} AND  t.date_month = {input2} AND t.date_day = {input3};
+
+
+4-6 Tables Queries
+
+A.
+	Normal:  SELECT category, business_name, u.name, r.stars, r.votes_useful, r.review_text 
+		FROM YelpDataset3.Business_Categories c, YelpDataset3.Business b, 
+			(SELECT * FROM (SELECT * FROM YelpDataset3.Reviews ORDER BY business_id, votes_useful desc, review_id) a GROUP BY business_id) r, 
+			YelpDataset3.Users u 
+		WHERE c.business_id = b.business_id AND r.business_id = b.business_id AND u.user_id = r.user_id AND category = {input};
+
